@@ -1,7 +1,20 @@
 import pygame as pg
 
 inventory = []
-class Inventory():
+
+class Consumables:
+    def __init__(self, description,name,amount,value, item_func, uses_left): # amount - for using|value - for selling or whatever
+        self.name = name
+        self.description = description
+
+        self.amount = amount
+
+        self.value = value
+
+        self.item_func = item_func
+        self.uses_left = uses_left
+
+class Inventory:
     def __init__(self, max_amt,amt_inside, current_amt_inside, inventory_value):
         self.max_amt = max_amt
         self.amt_inside = amt_inside
@@ -15,6 +28,8 @@ class Inventory():
             inventory.append(item)
         else:
             print('no')
+    def deleteItem(self, item):
+        inventory.remove(item)
 
     def calculateInvValue(self):
         if inventory and not self.value_calculated: # if there is anything in inventory and value wasnt calculated:
