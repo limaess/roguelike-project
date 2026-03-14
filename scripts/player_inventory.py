@@ -9,7 +9,7 @@ all_spells = []
 all_passives = []
 
 class Consumable:
-    def __init__(self, description,name,amount,value, item_func, uses_left): # amount - for using|value - for selling or whatever
+    def __init__(self, description,name,amount,value, item_func,self_class, uses_left): # amount - for using|value - for selling or whatever
         self.name = name
         self.description = description
 
@@ -20,26 +20,48 @@ class Consumable:
         self.item_func = item_func
         self.uses_left = uses_left
 
+        self.self_class = self_class
+
+        self.been_used = False
+
+    def applyEffect(self, player, target, item, amount):
+        if self.uses_left > 0 and not self.been_used:
+            self.item_func(player, target, amount, item)
+            self.uses_left -= 1
+            self.been_used = True
+
 class Passive:
-    def __init__(self, description,name,amount,item_func, uses_left):
+    def __init__(self, description,name,amount,item_func):
         self.name = name
         self.description = description
 
         self.amount = amount
 
         self.item_func = item_func
-        self.uses_left = uses_left
+
+        self.been_used = False  
+
+    def applyEffect(self, player, target, item, amount):
+        if self.uses_left > 0 and not self.been_used:
+            self.item_func(player, target, amount, item)
+            self.been_used = True
 
 class Spell:
-    def __init__(self, description,name,amount,item_func, uses_left):
+    def __init__(self, description,name,  mana_cost,amount, item_func, self_class):
         self.name = name
         self.description = description
 
         self.amount = amount
 
         self.item_func = item_func
-        self.uses_left = uses_left
 
+        self.been_used = False
+
+    def applyEffect(self, player, target, item, amount):
+        if self.uses_left > 0 and not self.been_used:
+            player.mana -= self.mana_cost
+            self.item_func(player, target, amount, item)
+            self.been_used = True
 
 class Inventory:
     def __init__(self, max_amt,amt_inside, current_amt_inside, inventory, inventory_value):
@@ -57,8 +79,17 @@ class Inventory:
             self.inventory.append(item)
         else:
             print('no')
+
     def deleteItem(self, item):
-        self.inventory.remove(item)
+        deleted = False
+        if item in self.inventory and not deleted:
+            self.inventory.remove(item)
+            deleted = True
+        return deleted
+
+    def deleteOnZeroUses(self, item):
+        if item.uses_left == 0 and item in self.inventory:
+            self.inventory.remove(item)
 
     def calculateInvValue(self, item):
         if self.inventory and not self.value_calculated and item in all_consumables: # if there is anything in inventory and value wasnt calculated:
