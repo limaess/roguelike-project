@@ -27,5 +27,4 @@ class Enemy:
                 target.health -= self.self_class_damage
             else:
                 target.health -= (self.your_class_damage - self.how_weak)
-
         self.has_attacked = True
