@@ -10,16 +10,22 @@ class Inventory():
         self.inventory_value = inventory_value
         self.value_calculated = False
 
+    def addItem(self, item):
+        if not self.amt_inside >= self.max_amt:
+            inventory.append(item)
+        else:
+            print('no')
+
     def calculateInvValue(self):
-        if inventory and not self.value_calculated: 
+        if inventory and not self.value_calculated: # if there is anything in inventory and value wasnt calculated:
             for item in inventory:
-                item.value += self.inventory_value
+                item.value += self.inventory_value # item value adds up to inventory value for every item in inv
                 self.current_amt_inside += 1
-                self.amt_inside = self.current_amt_inside
+                self.amt_inside = self.current_amt_inside # genuinely dont know why this is here
             self.value_calculated = True
 
-            if self.amt_inside < self.current_amt_inside or self.amt_inside > self.current_amt_inside:
-                self.inventory_value = 0
+            if self.amt_inside < self.current_amt_inside or self.amt_inside > self.current_amt_inside: # if amt inside changes in any way
+                self.inventory_value = 0 # it does this
                 self.value_calculated = False
 
 class_inventory = Inventory(max_amt=6,amt_inside=0,current_amt_inside=0,inventory_value=0)
