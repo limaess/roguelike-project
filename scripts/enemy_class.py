@@ -1,7 +1,7 @@
 import pygame as pg
 
 class Enemy:
-    def __init__(self,constitution, health,speed, strength,dexterity,magic, selfClassDamage, classWeaknesses, howWeak):
+    def __init__(self,constitution, health,speed, strength,dexterity,magic, self_class, self_class_damage, class_weaknesses, howWeak):
         self.constitution = constitution
 
         self.health = health
@@ -13,15 +13,19 @@ class Enemy:
 
         self.maxHealth = constitution * 4
 
-        self.selfClassDamage = selfClassDamage
-        self.classWeaknesses = classWeaknesses
+        self.self_class = self_class
+
+        self.self_class_damage = self_class_damage
+        self.class_weaknesses = class_weaknesses
         self.howWeak = howWeak
 
-    def basicAttack(self, target): 
-        if not self.hasAttacked:
-            if not self.classWeaknesses == target.playerClass:
-                target.health -= self.yourClassDamage 
-            else:
-                target.health -= (self.yourClassDamage - self.howWeak)
+        self.has_attacked = False
 
-        self.hasAttacked = True
+    def basicAttack(self, target): 
+        if not self.has_attacked:
+            if not self.class_weaknesses == target.self_class:
+                target.health -= self.self_class_damage
+            else:
+                target.health -= (self.your_class_damage - self.how_weak)
+
+        self.has_attacked = True
