@@ -24,3 +24,24 @@ class Player():
         self.playerClass = playerClass
         self.yourClassDamage = yourClassDamage
         self.effectOnSelf = effectOnSelf
+
+    def basicAttack(self, target):
+        if not self.hasAttacked:
+            if not target.classWeaknesses == self.playerClass: 
+                target.health -= (self.damage - target.waveBuffs)
+            else:
+                target.health -= (self.damage + target.howWeak)
+        else:
+            print('you already attacked, but this message wont appear later')
+        self.hasAttacked = True
+
+    def limits(self):
+        if self.health >= self.maxHealth:
+            self.health = self.maxHealth
+        if self.health <= 0:
+            self.health = 0
+
+        if self.mana >= self.charisma:
+            self.mana = self.charisma
+        if self.mana <= 0:
+            self.mana = 0
