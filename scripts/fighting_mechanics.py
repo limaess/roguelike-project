@@ -8,6 +8,12 @@ class TurnSys:
 
         self.turnThingIdk = None
 
-        self.isThereAList = False
-
         self.turnOrder = []
+
+    def makeTurnOrder(self,player, enemy1,enemy2,enemy3):
+        if not self.turnOrder:
+            self.turnOrder = [player,enemy1,enemy2,enemy3,player]
+        else:
+            print('why am i calling this function?')
+
+        self.turnThingIdk = self.turnOrder[self.whosTurn]
