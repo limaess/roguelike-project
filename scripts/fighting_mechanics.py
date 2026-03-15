@@ -1,6 +1,12 @@
 import pygame as pg
 import random as rnd
 
+from enemy_class import *
+from player_class import *
+
+from player_inventory import *
+from items import *
+
 class TurnSys:
     def __init__(self, whos_turn, which_round, exhaustion):
         self.whos_turn = whos_turn
@@ -42,3 +48,6 @@ class TurnSys:
                 item.been_used = False
 
             self.ended_turn = True
+
+pg.init()
+
