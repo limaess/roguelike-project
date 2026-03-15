@@ -11,18 +11,8 @@ class TurnSys:
 
         self.turn_order = []
 
-    def endTurn(self,player,enemy, player_inv,enemy_inv):
-        self.whosTurn += 1
-        if self.whosTurn == 5:
-            self.whosTurn = 0
-
-        player.has_attacked = False
-        enemy.has_attacked = False
-
-        for item in player_inv:
-            item.been_used = False
-        for item in enemy_inv:
-            item.been_used = False
+        self.ended_round = False
+        self.ended_turn = False
 
     def makeTurnOrder(self,player, enemy1,enemy2,enemy3):
         if not self.turn_order:
@@ -32,3 +22,23 @@ class TurnSys:
             print('why am i calling this function?')
 
         self.turn_thing = self.turn_order[self.whos_turn]
+
+    def endRound(self):
+        if self.whos_turn == 4: 
+            if not self.ended_round:
+                self.which_round += 1 
+                for these_guys in self.turn_order: # for everyone in the turn_order list thats been sorted before that
+                    these_guys.has_attacked = False # they can attack once more when its their turn
+                    for item in these_guys.consumable_inventory.extend(these_guys.spell_inventory): # for everything in their consum inv and spell inv 
+                        item.been_used = False # they can use it once more when its their turn
+
+    def endTurn(self,caller, caller_inv):
+        if not self.ended_turn:
+            self.whos_turn += 1
+
+            caller.has_attacked = False
+
+            for item in caller_inv:
+                item.been_used = False
+
+            self.ended_turn = True
