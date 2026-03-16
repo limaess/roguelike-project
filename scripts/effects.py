@@ -5,7 +5,7 @@ from player_class import *
 
 from player_inventory import *
 
-from fighting_mechanics import *
+from turn_n_wave_sys import *
 
 class Effect:
     def __init__(self, effects_on_self: list, target, target_consum_inv, target_spell_inv):
