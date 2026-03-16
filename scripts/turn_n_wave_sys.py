@@ -46,3 +46,5 @@ class TurnSys:
                 item.been_used = False
 
             self.ended_turn = True
+
+turnHandler = TurnSys(0, 0, False)
