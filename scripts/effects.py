@@ -31,13 +31,9 @@ class Effect:
         pass
     
     def stunnedEffect(self, how_long, amount):
-        self.effects['dmg_down']['applied'] = True
+        self.effects['stunned']['applied'] = True
         if not how_long == 0: 
-            if not self.target.has_attacked:
-                self.target.has_attacked = True 
-                how_long -= 1
-                for item in self.target_inventory.extend(self.target_spell_inv):
-                    item.been_used = False
+            pass
         else:
             self.effects['stunned']['active'] = False 
     
@@ -46,11 +42,15 @@ class Effect:
     
     def dmgDown(self, how_long, amount):
         if not how_long == 0:
+            self.effects['dmg_down']['applied'] = True
             if not self.effects['dmg_down']['applied']:
                 self.target.self_class_damage -= amount
                 self.effects['dmg_down']['applied'] = True
             else:
                 self.target.self_class_damage += amount 
+        else:
+            self.effects['dmg_down']['applied'] = False
+
                 
 
     def constDown(self, how_long, amount):
