@@ -35,11 +35,7 @@ class Effect:
     def stunnedEffect(self, how_long, amount):
         self.effects['stunned']['applied'] = True
         if not how_long == 0: 
-<<<<<<< HEAD
-            pass
-=======
-            if
->>>>>>> 5f1fc3aa7de6bf58cdfd46843e100fdc7bc56439
+            if  
         else:
             self.effects['stunned']['active'] = False 
     
