@@ -53,6 +53,12 @@ class Effect:
     
     def leechedEffect(self,amount):
         self.effects['leeched']['active'] = True
+        if not self.effects['leeched']['how_long'] == 0 and not self.effects['leeched']['applied']:
+            self.target.health -= amount
+            self.caller.health += amount
+            self.effects['leeched']['applied'] = True
+        else:
+            self.effects['leeched']['active'] = False 
     
     def dmgDown(self,amount):
         if not self.effects['dmg_down']['how_long'] == 0:
