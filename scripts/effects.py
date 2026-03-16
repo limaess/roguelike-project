@@ -35,7 +35,8 @@ class Effect:
     def stunnedEffect(self, how_long, amount):
         self.effects['stunned']['applied'] = True
         if not how_long == 0: 
-            if  
+            if turnHandler.turn_order[turnHandler.whos_turn] == self.target:
+                turnHandler.whos_turn += 1
         else:
             self.effects['stunned']['active'] = False 
     
