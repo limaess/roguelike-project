@@ -74,7 +74,16 @@ class Effect:
                 
 
     def constDown(self, how_long, amount):
-        pass
+        if not self.effects['const_down']['how_long'] == 0:
+            self.effects['const_down']['active'] = True
+            if not self.effects['const_down']['applied']:
+                self.target.constitution -= amount
+                self.effects['const_down']['applied'] = True
+            else:
+                self.target.constitution += amount   
+        else:
+            self.effects['const_down']['active'] = False
+
     
     def charismaDown(self, how_long, amount):
         pass
