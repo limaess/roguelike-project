@@ -5,6 +5,8 @@ from player_class import *
 
 from player_inventory import *
 
+from fighting_mechanics import *
+
 class Effect:
     def __init__(self, effects_on_self: list, target, target_consum_inv, target_spell_inv):
         self.target = target
@@ -33,7 +35,7 @@ class Effect:
     def stunnedEffect(self, how_long, amount):
         self.effects['stunned']['applied'] = True
         if not how_long == 0: 
-            pass
+            if 
         else:
             self.effects['stunned']['active'] = False 
     
