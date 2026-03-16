@@ -6,8 +6,7 @@ from player_class import *
 from player_inventory import *
 
 class Effect:
-    def __init__(self, amount):
-        self.amount = amount
+    def __init__(self):
 
         self.on_fire = False
         self.electric = False
@@ -21,3 +20,26 @@ class Effect:
         self.charisma_down = False
         self.intelligence_down = False
         
+    def onFireEffect(self, how_long, amount, applied):
+        pass
+
+    def electricEffect(self, how_long, amount, applied):
+        pass
+    
+    def stunnedEffect(self, how_long, amount, applied):
+        pass
+    
+    def leechedEffect(self, how_long, amount, applied):
+        pass
+    
+    def dmgDown(self, how_long, amount, applied):
+        pass
+    
+    def constDown(self, how_long, amount, applied):
+        pass
+    
+    def charismaDown(self, how_long, amount, applied):
+        pass
+
+    def intelligenceDown(self, how_long, amount, applied):
+        pass
