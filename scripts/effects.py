@@ -27,15 +27,16 @@ class Effect:
         }
         
     def onFireEffect(self, amount):
-        self.effects['on_fire']['applied'] = True
-        if not self.effects['on_fire']['how_long'] == 0:
-            pass 
+        self.effects['on_fire']['active'] = True
+        if not self.effects['on_fire']['how_long'] == 0 and not self.effects['on_fire']['applied']: 
+            self.target.health -= amount 
+            amount += 5
 
     def electricEffect(self, amount):
         pass
     
     def stunnedEffect(self, amount):
-        self.effects['stunned']['applied'] = True
+        self.effects['stunned']['active'] = True
         if not self.effects['stunned']['how_long'] == 0:
             if turnHandler.turn_order[turnHandler.whos_turn] == self.target:
                 turnHandler.whos_turn += 1
@@ -47,14 +48,14 @@ class Effect:
     
     def dmgDown(self,amount):
         if not self.effects['dmg_down']['how_long'] == 0:
-            self.effects['dmg_down']['applied'] = True
+            self.effects['dmg_down']['active'] = True
             if not self.effects['dmg_down']['applied']:
                 self.target.self_class_damage -= amount
                 self.effects['dmg_down']['applied'] = True
             else:
                 self.target.self_class_damage += amount 
         else:
-            self.effects['dmg_down']['applied'] = False
+            self.effects['dmg_down']['active'] = False
 
                 
 
