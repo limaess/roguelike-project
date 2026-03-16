@@ -8,8 +8,10 @@ from player_inventory import *
 from turn_n_wave_sys import *
 
 class Effect:
-    def __init__(self, effects_on_self: list, target, target_consum_inv, target_spell_inv):
+    def __init__(self, effects_on_self: list, target, caller, target_consum_inv, target_spell_inv):
         self.target = target
+        self.caller = caller
+
         self.target_consum_inv = target_consum_inv
         self.target_spell_inv = target_spell_inv
 
@@ -31,10 +33,16 @@ class Effect:
         if not self.effects['on_fire']['how_long'] == 0 and not self.effects['on_fire']['applied']: 
             self.target.health -= amount 
             amount += 5
+            self.effects['on_fire']['applied'] = True
 
     def electricEffect(self, amount):
-        pass
-    
+        self.effects['electric']['active'] = True
+        if not self.effects['electric']['how_long'] == 0 and not self.effects['electric']['applied']: 
+            self.target.health -= amount 
+            self.effects['electric']['applied'] = True
+        else:
+            self.effects['electric']['active'] = False
+
     def stunnedEffect(self, amount):
         self.effects['stunned']['active'] = True
         if not self.effects['stunned']['how_long'] == 0:
@@ -44,7 +52,7 @@ class Effect:
             self.effects['stunned']['active'] = False 
     
     def leechedEffect(self,amount):
-        pass
+        self.effects['leeched']['active'] = True
     
     def dmgDown(self,amount):
         if not self.effects['dmg_down']['how_long'] == 0:
