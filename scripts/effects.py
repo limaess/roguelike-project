@@ -7,18 +7,17 @@ from player_inventory import *
 
 class Effect:
     def __init__(self):
-
-        self.on_fire = False
-        self.electric = False
-
-        self.stunned = False
-
-        self.leeched = False
-
-        self.dmg_down = False
-        self.const_down = False
-        self.charisma_down = False
-        self.intelligence_down = False
+        
+        self.effects = {
+            'on_fire': {'active': False, 'applied': False},
+            'electric': {'active': False, 'applied': False},
+            'stunned': {'active': False, 'applied': False},
+            'leeched': {'active': False, 'applied': False},
+            'dmg_down': {'active': False, 'applied': False},
+            'const_down': {'active': False, 'applied': False},
+            'charisma_down': {'active': False, 'applied': False},
+            'intelligence_down': {'active': False, 'applied': False},
+        }
         
     def onFireEffect(self, how_long, amount, applied):
         pass
