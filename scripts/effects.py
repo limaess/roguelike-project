@@ -16,35 +16,37 @@ class Effect:
         self.effects_on_self = effects_on_self
 
         self.effects = {
-            'on_fire': {'active': False, 'applied': False, 'func': {self.onFireEffect}},
-            'electric': {'active': False, 'applied': False, 'func': {self.electricEffect}},
-            'stunned': {'active': False, 'applied': False, 'func': {self.stunnedEffect}},
-            'leeched': {'active': False, 'applied': False, 'func': {self.leechedEffect}},
-            'dmg_down': {'active': False, 'applied': False, 'func': {self.dmgDown}},
-            'const_down': {'active': False, 'applied': False, 'func': {self.constDown}},
-            'charisma_down': {'active': False, 'applied': False, 'func': {self.charismaDown}},
-            'intelligence_down': {'active': False, 'applied': False, 'func': {self.intelligenceDown}},
+            'on_fire': {'active': False, 'applied': False, 'how_long': 0, 'func': {self.onFireEffect}},
+            'electric': {'active': False, 'applied': False, 'how_long': 0, 'func': {self.electricEffect}},
+            'stunned': {'active': False, 'applied': False, 'how_long': 0, 'func': {self.stunnedEffect}},
+            'leeched': {'active': False, 'applied': False, 'how_long': 0, 'func': {self.leechedEffect}},
+            'dmg_down': {'active': False, 'applied': False, 'how_long': 0, 'func': {self.dmgDown}},
+            'const_down': {'active': False, 'applied': False, 'how_long': 0, 'func': {self.constDown}},
+            'charisma_down': {'active': False, 'applied': False, 'how_long': 0, 'func': {self.charismaDown}},
+            'intelligence_down': {'active': False, 'applied': False, 'how_long': 0, 'func': {self.intelligenceDown}},
         }
         
-    def onFireEffect(self, how_long, amount):
-        pass
+    def onFireEffect(self, amount):
+        self.effects['on_fire']['applied'] = True
+        if not self.effects['on_fire']['how_long'] == 0:
+            pass 
 
-    def electricEffect(self, how_long, amount):
+    def electricEffect(self, amount):
         pass
     
-    def stunnedEffect(self, how_long, amount):
+    def stunnedEffect(self, amount):
         self.effects['stunned']['applied'] = True
-        if not how_long == 0: 
+        if not self.effects['stunned']['how_long'] == 0:
             if turnHandler.turn_order[turnHandler.whos_turn] == self.target:
                 turnHandler.whos_turn += 1
         else:
             self.effects['stunned']['active'] = False 
     
-    def leechedEffect(self, how_long, amount):
+    def leechedEffect(self,amount):
         pass
     
-    def dmgDown(self, how_long, amount):
-        if not how_long == 0:
+    def dmgDown(self,amount):
+        if not self.effects['dmg_down']['how_long'] == 0:
             self.effects['dmg_down']['applied'] = True
             if not self.effects['dmg_down']['applied']:
                 self.target.self_class_damage -= amount
