@@ -86,7 +86,15 @@ class Effect:
 
     
     def charismaDown(self, how_long, amount):
-        pass
+        if not self.effects['charisma_down']['how_long'] == 0:
+            self.effects['charisma_down']['active'] = True
+            if not self.effects['charisma_down']['applied']:
+                self.target.charisma -= amount
+                self.effects['charisma_down']['applied'] = True
+            else:
+                self.target.charisma += amount   
+        else:
+            self.effects['charisma_down']['active'] = False
 
     def intelligenceDown(self, how_long, amount):
         pass
