@@ -1,4 +1,5 @@
 import random as r
+import pygame as pg
 
 from enemy_class import *
 from player_class import *
@@ -18,34 +19,35 @@ class Effect:
         self.effects_on_self = effects_on_self
 
         self.effects = {
-            'on_fire': {'active': False, 'applied': False, 'amount': 0, 'how_long': 0, 'func': {self.onFireEffect}},
-            'electric': {'active': False, 'applied': False, 'amount': 0, 'how_long': 0, 'func': {self.electricEffect}},
-            'stunned': {'active': False, 'applied': False,'amount': 0,  'how_long': 0, 'func': {self.stunnedEffect}},
-            'leeched': {'active': False, 'applied': False,'amount': 0,  'how_long': 0, 'func': {self.leechedEffect}},
-            'dmg_down': {'active': False, 'applied': False,'amount': 0,  'how_long': 0, 'func': {self.dmgDown}},
-            'const_down': {'active': False, 'applied': False,'amount': 0,  'how_long': 0, 'func': {self.constDown}},
-            'charisma_down': {'active': False, 'applied': False,'amount': 0,  'how_long': 0, 'func': {self.charismaDown}},
-            'intelligence_down': {'active': False, 'applied': False,'amount': 0,  'how_long': 0, 'func': {self.intelligenceDown}},
+            'on_fire': {'active': False, 'applied': False, 'amount': 0, 'how_long': 0, 'func': self.onFireEffect},
+            'electric': {'active': False, 'applied': False, 'amount': 0, 'how_long': 0, 'func': self.electricEffect},
+            'stunned': {'active': False, 'applied': False,'amount': 0,  'how_long': 0, 'func': self.stunnedEffect},
+            'leeched': {'active': False, 'applied': False,'amount': 0,  'how_long': 0, 'func': self.leechedEffect},
+            'dmg_down': {'active': False, 'applied': False,'amount': 0,  'how_long': 0, 'func': self.dmgDown},
+            'const_down': {'active': False, 'applied': False,'amount': 0,  'how_long': 0, 'func': self.constDown},
+            'charisma_down': {'active': False, 'applied': False,'amount': 0,  'how_long': 0, 'func': self.charismaDown},
+            'intelligence_down': {'active': False, 'applied': False,'amount': 0,  'how_long': 0, 'func': self.intelligenceDown},
         }
 
     def applyEffect(self,effect, how_long, amount, target, caller):
-        self.effects[effect]['active'] = True
+        self.target = target
+        self.caller = caller
 
         self.effects[effect]['how_long'] = how_long
         self.effects[effect]['amount'] = amount  
 
         self.effects[effect]['func']()
-
-        self.target = target
-        self.caller = caller
+        self.effects_on_self.append(effect)
         
     def onFireEffect(self):
         self.effects['on_fire']['active'] = True
         if not self.effects['on_fire']['how_long'] == 0 and not self.effects['on_fire']['applied']: 
             self.target.health -= self.effects['on_fire']['amount']  
-            amount += 5
+            self.effects['on_fire']['amount'] += 5
             self.effects['on_fire']['how_long'] -= 1
             self.effects['on_fire']['applied'] = True
+        if self.effects['on_fire']['how_long'] == 0:
+            self.effects['on_fire']['active'] = False
 
         if turnHandler.turn_order[turnHandler.whos_turn] == self.target:
             self.effects['on_fire']['applied'] = False
@@ -129,3 +131,39 @@ class Effect:
         else:
             self.effects['intelligence_down']['active'] = False
 
+pg.init()
+
+player = Player(25, 100, 10, 30, 10, 20, 5, 4, 30, 0, 'ranger', None, None, None)
+player.self_class_damage = player.dexterity
+
+turnHandler.makeTurnOrder(player, 'place', 'holder', 'lmao')    
+turnHandler.whos_turn = 0
+
+playerEffects = Effect([], None, None, None, None)
+playerEffects.applyEffect('on_fire', how_long=10, amount=5, target=player, caller=None)
+
+screen = pg.display.set_mode((800, 600))
+
+running = True
+while running:
+    for event in pg.event.get():
+        if event.type == pg.QUIT:
+            running = False
+    pg.display.flip()
+
+    keys = pg.key.get_just_pressed()
+
+    if keys[pg.K_q]:
+        turnHandler.whos_turn += 1
+        print(player.health, print(turnHandler.whos_turn)) 
+
+        for effect in playerEffects.effects_on_self:
+            playerEffects.effects[effect]['func']()
+
+        if turnHandler.whos_turn == 2:
+            print('PLAYER DETECTED!!!!')    
+            if playerEffects.effects[effect]['how_long'] == 0:
+                print('BOOOO YOU SUCK')
+
+    if turnHandler.whos_turn >= 4:
+        turnHandler.whos_turn = -1
