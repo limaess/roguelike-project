@@ -97,4 +97,12 @@ class Effect:
             self.effects['charisma_down']['active'] = False
 
     def intelligenceDown(self, how_long, amount):
-        pass
+        if not self.effects['intelligence_down']['how_long'] == 0:
+            self.effects['intelligence_down']['active'] = True
+            if not self.effects['intelligence_down']['applied']:
+                self.target.intelligence -= amount
+                self.effects['intelligence_down']['applied'] = True
+            else:
+                self.target.intelligence += amount   
+        else:
+            self.effects['intelligence_down']['active'] = False
